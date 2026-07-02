@@ -1,0 +1,22 @@
+#include<iostream>
+using namespace std;
+
+int main() {
+    
+     int marks[4]={1,2,3,4};
+    // // for(int i=0;i<4;i++){
+    // //     cout<<marks[i]<<endl;
+    // // }
+    // int i=0;
+    // do{
+    //     cout<<marks[i]<<endl;
+    //     i++;
+    // }while(i<4);
+    int *p=marks;
+   while(p<=marks+3){
+        cout<<*(p++)<<endl;
+    }
+    
+
+    return 0;
+}
