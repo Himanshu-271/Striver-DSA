@@ -1,0 +1,178 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+struct Node
+{
+    int data;
+    Node *next;
+
+    Node(int data1)
+    {
+        data = data1;
+        next = nullptr;
+    }
+};
+
+Node *Convertor(vector<int> &arr)
+{
+    if (arr.empty())
+        return nullptr;
+
+    Node *head = new Node(arr[0]);
+    Node *mover = head;
+
+    for (int i = 1; i < arr.size(); i++)
+    {
+        Node *temp = new Node(arr[i]);
+        mover->next = temp;
+        mover = temp;
+    }
+    return head;
+}
+
+Node *Merge(Node *head1, Node *head2, Node *head3)
+{
+    // brute--->
+
+    vector<int> ans;
+
+    Node *t1 = head1;
+    Node *t2 = head2;
+    Node *t3 = head3;
+
+    while (t1 != nullptr)
+    {
+        ans.push_back(t1->data);
+        t1 = t1->next;
+    }
+
+    while (t2 != nullptr)
+    {
+        ans.push_back(t2->data);
+        t2 = t2->next;
+    }
+
+    while (t3 != nullptr)
+    {
+        ans.push_back(t3->data);
+        t3 = t3->next;
+    }
+
+    sort(ans.begin(), ans.end());
+
+    Node *head = Convertor(ans);
+
+    return head;
+}
+
+Node *merge(Node *head1, Node *head2)
+{
+
+    if (head1 == nullptr && head2 == nullptr)
+        return nullptr;
+    else if (head1 == nullptr)
+        return head2;
+    else if (head2 == nullptr)
+        return head1;
+
+    Node *dummy = new Node(-1);
+    Node *temp = dummy;
+
+    Node *t1 = head1;
+    Node *t2 = head2;
+
+    while (t1 != nullptr && t2 != nullptr)
+    {
+
+        if (t1->data > t2->data)
+        {
+            temp->next = t2;
+            t2 = t2->next;
+            temp = temp->next;
+        }
+
+        else
+        {
+            temp->next = t1;
+            t1 = t1->next;
+            temp = temp->next;
+        }
+    }
+
+    if (t1 == nullptr)
+        temp->next = t2;
+    else
+        temp->next = t1;
+
+    return dummy->next;
+}
+
+int main()
+{
+    int n;
+    cout << "the val of n:";
+    cin >> n;
+
+    vector<int> arr(n);
+
+    for (int i = 0; i < n; i++)
+    {
+        cin >> arr[i];
+    }
+
+    int m;
+    cout << "the val of m:";
+    cin >> m;
+
+    vector<int> brr(m);
+
+    for (int i = 0; i < m; i++)
+    {
+        cin >> brr[i];
+    }
+
+    int r;
+    cout << "the val of r:";
+    cin >> r;
+
+    vector<int> crr(r);
+
+    for (int i = 0; i < r; i++)
+    {
+        cin >> crr[i];
+    }
+
+    // each has at leat one elm assume--->
+
+    Node *head1 = Convertor(arr);
+    Node *head2 = Convertor(brr);
+    Node *head3 = Convertor(crr);
+
+    // brute--->
+
+    // Node *head = Merge(head1, head2, head3);
+
+    // optimal--->
+
+    vector<Node *> ls;
+    ls.push_back(head1);
+    ls.push_back(head2);
+    ls.push_back(head3);
+
+    Node *head = ls[0];
+
+    for (int i = 1; i < 3; i++)
+    {
+
+        head = merge(head, ls[i]);
+    }
+
+    Node *temp = head;
+    while (temp != nullptr)
+    {
+        cout << temp->data << " ";
+        temp = temp->next;
+    }
+
+    return 0;
+}
